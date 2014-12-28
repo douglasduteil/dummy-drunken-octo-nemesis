@@ -23,8 +23,16 @@ module.exports = function(config) {
     browsers: Object.keys(customLaunchers),
     sauceLabs: {
       testName:'dummy-drunken-octo-nemesis',
-      recordScreenshots: false,
+      recordScreenshots: false
     },
     customLaunchers: customLaunchers
   });
+
+
+  if (process.env.TRAVIS) {
+    var buildLabel = 'TRAVIS #' + process.env.TRAVIS_BUILD_NUMBER + ' (' + process.env.TRAVIS_BUILD_ID + ')';
+
+    config.sauceLabs.build = buildLabel;
+    config.sauceLabs.tunnelIdentifier = process.env.TRAVIS_JOB_NUMBER;
+  }
 };
